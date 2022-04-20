@@ -1,9 +1,13 @@
 # react 项目基础插件配置
 
 使用插件介绍
+
    1、cross-env(跨平台设置和使用环境变量的脚本)
+
      步骤一：npm install cross-env
+
      步骤二：修改package.json中 **号部分
+     
         ```
          "scripts": {
                          "start": "react-scripts start",
