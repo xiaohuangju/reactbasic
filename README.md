@@ -7,8 +7,7 @@
      步骤一：npm install cross-env
 
      步骤二：修改package.json中 **号部分
-     
-        ```
+
          "scripts": {
                          "start": "react-scripts start",
                          "build": "react-scripts build",
@@ -18,8 +17,7 @@
                          "build:pre": "cross-env REACT_APP_ENV=pre npm run build",  **
                          "build:pro": "cross-env REACT_APP_ENV=pro npm run build",  **
                          "build:dev": "cross-env REACT_APP_ENV=dev npm run build"   **
-                          },
-         ```     
+                          },  
      
      步骤三：环境变量，就涉及到请求封装 
              如：axios.defaults.baseUrl
