@@ -1,70 +1,46 @@
-# Getting Started with Create React App
+# react 项目基础插件配置
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+使用插件介绍
+   1、cross-env(跨平台设置和使用环境变量的脚本)
+     步骤一：npm install cross-env
+     步骤二：修改package.json中 **号部分
+        ```
+         "scripts": {
+                         "start": "react-scripts start",
+                         "build": "react-scripts build",
+                         "test": "react-scripts test",
+                         "eject": "react-scripts eject",
+                         "build:sit": "cross-env REACT_APP_ENV=sit npm run build",  **
+                         "build:pre": "cross-env REACT_APP_ENV=pre npm run build",  **
+                         "build:pro": "cross-env REACT_APP_ENV=pro npm run build",  **
+                         "build:dev": "cross-env REACT_APP_ENV=dev npm run build"   **
+                          },
+         ```     
+     
+     步骤三：环境变量，就涉及到请求封装 
+             如：axios.defaults.baseUrl
+             axios.interceprors.request.use(()=>{},()=>{})  
+             axios.interceptors.response.use(()=>{},()=>{})
 
-## Available Scripts
+   2、避免eject 暴露webpack配置, react-app-rewired customize-cra  重写,定制webpack 
 
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+      步骤一： npm install react-app-rewired customize-cra --save-dev
+               react-app-rewired 和 customize-cra 之间 
+               This project relies on react-app-rewired. You'll need to install that in order for customize-cra to work.
+      步骤二： 修改package.json中 **部分
+                        "scripts": {
+                         "start": "react-app-rewired start",  **
+                         "build": "react-app-rewired build",  **
+                         "test": "react-app-rewired test",    **
+                         "eject": "react-app-rewired eject",  **
+                         "build:sit": "cross-env REACT_APP_ENV=sit npm run build",
+                         "build:pre": "cross-env REACT_APP_ENV=pre npm run build",
+                         "build:pro": "cross-env REACT_APP_ENV=pro npm run build",
+                         "build:dev": "cross-env REACT_APP_ENV=dev npm run build"
+                          },
+      步骤三：根目录创建 config.overrodes.js文件,
+              使用require引入 customize-cra  
+              引入 path
+              引入 paths
+              引入 UglifyJsPlugin   
+              
