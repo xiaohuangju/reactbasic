@@ -10,7 +10,7 @@ let configurl = {
     apiHost: "https://2.3.4.5",
   },
   development: {
-    apiHost: "http://3.3.2.1",
+    apiHost: "http://10.0.8.226:8001",
   },
 };
 console.log(configurl[getEnv()],'环境变量地址')

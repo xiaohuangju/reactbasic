@@ -3,11 +3,17 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {Provider} from 'react-redux'
+import store from './store/index'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+console.log(store,'store',Provider)
 root.render(
   <React.StrictMode>
+    {/* <Provider store={store}> */}
     <App />
+    {/* </Provider> */}
+ 
   </React.StrictMode>
 );
 
@@ -55,7 +61,8 @@ root.render(
               使用require引入 customize-cra  
               引入 path
               引入 paths
-              引入 UglifyJsPlugin   
+              引入 UglifyJsPlugin 
+   注： src/redux.js   源码             
               
 */
 

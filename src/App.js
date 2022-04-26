@@ -6,11 +6,13 @@ import react, { useEffect } from "react";
 import axios from "axios";
 import config from "./config/env/index";
 import {test} from './service/home';
+import store from './store/index'
+
 
 
 
 function App() {
-
+console.log(store.getState(),'store')
 
   /*
   没有将axios进行封装时
@@ -25,14 +27,14 @@ function App() {
 
 
   //封装后的写法
-  useEffect(()=>{
-    test().then((res)=>{
+  // useEffect(()=>{
+  //   test().then((res)=>{
+  //       store.dispatch({type:"findlist",value:res})
+  //   })
+  //   .catch((error)=>{
 
-    })
-    .catch((error)=>{
-
-    })
-  },[])
+  //   })
+  // },[])
   return (
     <div className="App">
       <header className="App-header">
