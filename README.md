@@ -45,4 +45,23 @@
               引入 path
               引入 paths
               引入 UglifyJsPlugin   
+
+添加Store
+
+     步骤一：安装 redux  redux-redux   redux-thunk(支持异步)         
+
+     步骤二：
+     创建文件夹：store
+                 store 子文件夹 action  reducers
+
+     第三步：创建store
+      import {createStore,applyMiddleware,combineReducers} from 'redux';
+       import ThunkMiddleware from 'redux-thunk';
+       import reducers from './reducers/index';
+      const store = createStore(reducers,applyMiddleware(ThunkMiddleware))
+      //导出store
+    
+     第四步：使用store
+      store.dispatch({})  派发action  会去触发reducer 然后这个reducer返回值是一个currentState
+      
               

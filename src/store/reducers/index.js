@@ -6,16 +6,22 @@ const initState = {
 };
 
 const finlist = (state = initState, action) => {
-  console.log(action, "查看dispatch的值");
+  console.log(action, "action");
   switch (action.type) {
     case "findlist":
       return {
         ...state,
         findlist: action.value,
       };
+    default:
+      return state;
     //展开运算符，属性有的情况下会覆盖，没有的情况下保留
   }
 };
-let reducers=combineReducers({firstReducer, secondReducer,finlist})
-export default reducers;
 
+let reducers = combineReducers({
+  firstReducer,
+  secondReducer,
+  finlist,
+});
+export default reducers;
