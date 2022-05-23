@@ -1,11 +1,15 @@
 import axios from "axios";
 import config from "../config/env/index";
 
+
+//axios请求地址 
 axios.defaults.baseURL = config.apiHost;
+//请求的时长
 axios.defaults.timeout = 3000 * 2;
 //请求拦截
 axios.interceptors.request.use(
      //请求前做的事情
+     //可以给请求统一加上某个指定请求参数等等
   (config) => {
      
     console.log(config,'config');
@@ -42,6 +46,8 @@ axios.interceptors.request.use(
       useId: "1",
       "content-type": "application/json",
     };
+
+
     return config;
   },
   //对请求错误做什么
