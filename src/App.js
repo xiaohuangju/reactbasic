@@ -1,6 +1,6 @@
 import logo from "./logo.svg";
 import "./App.css";
-import react, { useEffect } from "react";
+import React, { useEffect } from "react";
 import reducers from "./store/reducers";
 import axios from "axios";
 import config from "./config/env/index";
@@ -32,10 +32,31 @@ function App(props) {
     // })
   }, []);
 
+  function onClickFn() {
+    console.log(this, "查看this==");
+  }
+  const onClickFn2 = () => {
+    console.log(this, "查看this箭头函数");
+  };
   return (
-    <div className="App">
-      <header className="App-header">{<h1>{props.count}</h1>}</header>
-    </div>
+    <>
+      <div className="App">
+        <header className="App-header">
+          <>
+            <h1>{props.count}</h1>{" "}
+            <button
+              onClick={() => {
+                onClickFn();
+                onClickFn2();
+                console.log(this, "点击查看this");
+              }}
+            >
+              {"按钮"}
+            </button>
+          </>
+        </header>
+      </div>
+    </>
   );
 }
 

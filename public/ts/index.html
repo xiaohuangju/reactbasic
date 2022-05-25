@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>验证this</h1>
+    <button id="a">验证1</button>
+    <button id="b">验证2</button>
+  </body>
+  <script>
+    // "use strict";
+    let one = document.getElementById("a");
+    let two = document.getElementById("b");
+    // one.onclick = () => {
+    //   console.log("验证1箭头函数", this); //this为window
+    // };
+    // two.onclick = function onclickFn() {
+    //   console.log("验证2普通函数", this);//普通函数this指向的是调用者
+    // };
+
+    //=============
+
+    // let strict = {
+    //   color: "red",
+    //   onclickFn: function () {
+    //     console.log(this, "当在对象里的普通函数");//this指向的是调用者
+    //   },
+    //   onclickFn2: ()=>{
+    //     console.log(this, "当在对象里的箭头函数");//this指向的是window，
+    //   },
+    // };
+    // one.onclick = strict.onclickFn;
+    // two.onclick = strict.onclickFn2;
+
+    //====================================
+
+    window.color = "red";
+    let strict = {
+      color: "red",
+      strict2: {
+        strict3: {
+          onclickFn: function () {
+            console.log(this, this.color, "当在对象里的普通函数"); //this指向的是调用者
+          },
+          onclickFn2: () => {
+            console.log(this, this.color, "当在对象里的箭头函数"); //this指向的是window，
+          },
+        },
+      },
+    };
+    one.onclick = strict.strict2.strict3.onclickFn;
+    two.onclick = strict.strict2.strict3.onclickFn2;
+
+    /*
+    普通函数只与调用这有关
+    箭头函数 与   定义箭头函数的上下文
+    */
+
+    /*==================*/
+
+    let first = "first";
+    var windowFirst = "windowfirst";
+    const firstArrowFn = () => {
+      // console.log(this, "箭头函数", this.first, this.windowFirst);
+    };
+    console.log(firstArrowFn());
+
+    function objThis() {
+      let arrowObj = {
+        oneproperty: "1",
+        // twoproperty: this.windowFirst,
+        fn: {
+          fn2: this,
+        },
+      };
+      /*非严格模式下 this指向是window 但是如果是全局函数在严格模式下，那就是undefined*/
+      console.log(arrowObj, "arrowObj", this);
+    }
+    objThis();
+
+    function King() {
+      this.royaltName = "heery";
+      //箭头函数会保留该定义箭头函数时的上下文,箭头函数中的this会保留定义该函数时的上下文
+      console.log(this, "this1"); //this指向的是该实例,
+      setTimeout(() => {
+        console.log(this.royaltName);
+        console.log(this, "箭头函数setTimeOUT");
+      }, 1000);
+    }
+    function Queeen() {
+      this.royaltName = "ele";
+      console.log(this, "this2");
+      setTimeout(function () {
+        console.log(this, "普通函数setTimeOUT"); //this指向的是window
+        console.log(this.royaltName);
+      }, 1000);
+    }
+    new King();
+    new Queeen();
+
+    setTimeout(() => console.log(this, "外层定时器"), 1000);
+    setTimeout(function () {
+      console.log("外层定时器普通函数", this);
+    }, 1000);
+
+    //闭包 ,常用于嵌套函数
+
+    // function createComparsionFunctio(props) {
+    //   //匿名函数的作用域链中实际包含createComparsionFunctio的活动对象
+    //   return function jsFn(object1, object2) {
+    //     console.log(this, "this闭包");
+    //     let value1 = object1[props];
+    //     let value2 = object2[props];
+    //     if (value1 < value2) {
+    //       return -1;
+    //     } else if (value1 > value2) {
+    //       return 1;
+    //     } else {
+    //       return 0;
+    //     }
+    //   };
+    // }
+    // let compare = createComparsionFunctio("name");
+    // console.log(compare, "compare");
+    // //闭包 活动对象的延长
+    // console.log(compare(5, 10));
+    // compare = null;
+
+    function createComparsionFunctio(props) {
+      //匿名函数的作用域链中实际包含createComparsionFunctio的活动对象
+      return (object1, object2) => {
+        console.log(this, "this闭包");
+        let value1 = object1[props];
+        let value2 = object2[props];
+        if (value1 < value2) {
+          return -1;
+        } else if (value1 > value2) {
+          return 1;
+        } else {
+          return 0;
+        }
+      };
+    }
+    let compare = createComparsionFunctio("name");
+    console.log(compare, "compare");
+    //闭包 活动对象的延长
+    console.log(compare(5, 10));
+    compare = null;
+
+    //===============================闭包this对象
+    window.identity = "this window";
+    let obj = {
+      identity: "my object",
+      //this argument 对象
+      getIdentityFunc() {
+        console.log("外函数的this", this); //指向的是obj此对象
+        let that = this;
+        return function () {
+          //内部函数不能直接访问外部的this和arguments,
+          //但是可以保存到另外一个变量进行中转
+          console.log("内部函数的this", this);
+          return this.identity;
+        };
+      },
+    };
+    console.log(obj.getIdentityFunc()()); //this 指向window
+
+    //=================内存泄漏
+
+    function add(num1, num2) {
+      let sum = num1 + num2;
+      return sum;
+    }
+    console.log(add(1, 2));
+
+    function add(num1, num2) {
+      let sum = num1 + num2;
+      console.log(this, "加外部");
+      return function () {
+        return sum + 2;
+      };
+    }
+    console.log(add(1, 2)());
+
+    function Person() {
+      this.getName = function () {
+        return name;
+      };
+      this.setName = function () {
+        name = value;
+      };
+    }
+    let person = new Person("niko");
+    console.log(person, "person");
+
+    //==============================期约与异步函数
+    //  function double(value,callback){
+    //    setTimeout(()=>callback(value*2),1000);
+    //  }
+    function double(value, success, failure) {
+      setTimeout(() => {
+        try {
+          if (typeof value !== "number") {
+            throw "Must provide number as first argument";
+          }
+          success(2 * value);
+        } catch (e) {
+          failure(e);
+        }
+      }, 1000);
+    }
+    const successCallback = (x) => console.log(`Success: ${x}`);
+    const failureCallback = (e) => console.log(`Failure: ${e}`);
+    double(3, successCallback, failureCallback);
+    double("b", successCallback, failureCallback);
+
+    let p = new Promise(() => {});
+    setTimeout(console.log, 0, p);
+    new Promise(() => setTimeout(console.log, 0, "executor"));
+    setTimeout(console.log, 0, "promise initalized");
+
+    try {
+      throw new Error("foo");
+    } catch (e) {
+      console.log(e); // Error: foo
+    }
+    try {
+      Promise.reject(new Error("bar"));
+    } catch (e) {
+      console.log(e);
+    }
+    // Uncaught (in promise) Error: bar
+  </script>
+</html>
