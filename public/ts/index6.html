@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="status" style="width: 10px;height:30px;border:1px solid red">
+      111
+    </div>
+  </body>
+  <script>
+    // console.time();
+    // let value = 5;
+    // let sum = 10 + value;
+    // console.log(sum);
+    // console.timeEnd();
+
+    // console.time();
+    // let value2 = [5, 10];
+    // let sum2 = value2[0] + value2[1];
+    // console.log(sum);
+    // console.timeEnd();
+    // console.time();
+    // let values3 = { first: 5, second: 10 };
+    // let sum3 = values3.first + values3.second;
+    // console.log(sum3);
+    // //要避免通过一次多次查找一个值
+    // console.timeEnd();
+    // let values = 3;
+    // console.time();
+    // for (let i = 0; i < values; i++) {
+    //   console.log(i);
+    // }
+    // console.timeEnd();
+
+    // console.time();
+    // for (let i = values - 1; i > 0; i--) {
+    //   console.log(i);
+    // }
+    // console.timeEnd();
+
+    console.time();
+    let riskLevelObj = {
+      high: { text: "高", color: "#E54545" },
+      middle: { text: "中", color: "#FF9D00" },
+      low: { text: "低", color: "#0ABF5B" },
+      nothing: { text: "未知", color: "#888" },
+      default: { text: "未评定", color: "#888" },
+    };
+    console.log(riskLevelObj.high.text);
+    console.timeEnd();
+
+    console.time();
+    let riskLevelObj2 = [
+      { high: { text: "高", color: "#E54545" } },
+      { middle: { text: "中", color: "#FF9D00" } },
+      { low: { text: "低", color: "#0ABF5B" } },
+      { nothing: { text: "未知", color: "#888" } },
+      { default: { text: "未评定", color: "#888" } },
+    ];
+    let newobj = riskLevelObj2.find((item) => {
+      return item["high"];
+    });
+    let text = newobj.high;
+
+    console.log(text.text);
+
+    console.timeEnd();
+
+    // function updateProgress() {
+    //   var div = document.getElementById("status");
+    //   div.style.width = parseInt(div.style.width, 10) + 0.1 + "%";
+    //   if (div.style.left != "100%") {
+    //     requestAnimationFrame(updateProgress);
+    //   }
+    // }
+    // requestAnimationFrame(updateProgress);
+  </script>
+</html>
