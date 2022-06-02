@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    let first = {
+      //计算属性
+      name1: "name1",
+      get name1() {
+        return "get" + this.name;
+      },
+      set name1(value) {
+        this.name = value;
+      },
+    };
+    first.name = "firstName";
+    Object.getOwnPropertyNames(first);
+    Object.getPrototypeOf(first);
+    Object.getOwnPropertyDescriptor(first, "name");
+    Object.defineProperty(first, "age", {
+      value: 18,
+      configurable: true,
+      enumerable: true,
+      writable: false,
+    });
+    first.age = 20;
+    console.log(first);
+    //工厂模式
+    function createPerson(firstName, secondName, age) {
+      let obj = {};
+      obj.firstName = firstName;
+      obj.secondName = secondName;
+      obj.age = age;
+      obj.obj1 = { one: "1", two: "2" };
+      return obj;
+    }
+    let create1 = createPerson("huang", "huang", 18);
+    create1.obj1.three = "3";
+    let create2 = createPerson("huang2", "huang2", 18);
+
+    console.log(create1, create2);
+
+    /*
+    构造函数===========================
+    */
+    function CreatePersonConstructor1(first, second, age) {
+      this.name = first;
+      this.secondName = second;
+      this.age = age;
+      this.obj = ["1", "2", "3"];
+      this.sayName = function() {
+        console.log(name + second + age);
+      };
+    }
+
+    /*改造构造函数，方法公用
+    1、占用全局，打乱全局作用域
+    */
+    function CreatePersonConstructor2(first, second, age) {
+      this.name = first;
+      this.secondName = second;
+      this.age = age;
+      this.obj = ["1", "2", "3"];
+      this.sayName = sayName;
+    }
+    function sayName2() {
+      console.log(this.name + this.second + this.age);
+    }
+
+    /*
+    升级构造函数=================使用原型
+    1、原型也有缺点就是在涌向引用类型的时候，会出现问题
+    */
+
+    function CreatePersonConstructor3(first, second, age) {
+      this.name = first;
+      this.secondName = second;
+      this.age = age;
+      this.obj = ["1", "2", "3"];
+    }
+    CreatePersonConstructor3.prototype.sayName = function() {
+      console.log(this, this.name + this.second + this.age);
+    };
+    CreatePersonConstructor3.prototype.constructorArr = ["a", "b"];
+
+    /*原型继承===========================*/
+    function CreatePersonConstructor(first, second, age) {
+      this.name = first;
+      this.secondName = second;
+      this.age = age;
+      this.obj = ["1", "2", "3"];
+      this.sayName = function(value) {
+        console.log(this, this.name + this.second + this.age);
+        return value;
+      };
+    }
+
+    // CreatePersonConstructor.prototype.sayName = function() {
+    //   console.log(this, this.name + this.second + this.age);
+    //   return "子类的方法是否返回";
+    CreatePersonConstructor.prototype.constructorArr = ["a", "b"];
+    function CreatePersonConstructorSon() {}
+    CreatePersonConstructorSon.prototype = new CreatePersonConstructor(
+      "huang4",
+      "ju4",
+      23
+    );
+
+    /*构造函数继承==========================*/
+
+    
+
+    /*
+    1、new 操作符 内存创建对象，
+    2、对象特性[[prototype]]被赋值为 构造函数的prototype属性
+    3、this指向新对象，然后执行构造函数的代码
+    4、是否有返回值，没有的话就是新的对象，否则就是返回的对象
+    */
+    let personSon = new CreatePersonConstructorSon();
+    console.log(personSon, "personSon", Object.getOwnPropertyNames(personSon));
+    console.log("子访问父的sayName方法===", personSon.sayName("我是子函数"));
+    let person1 = new CreatePersonConstructor("huang1", "ju2", 18);
+    person1.constructorArr.push("personPush");
+    person1.obj.push("4");
+    let person2 = new CreatePersonConstructor("huang2", "ju3", 12);
+    console.log(person1.sayName());
+    console.log(person1.sayName == person2.sayName, "方法");
+    console.log(
+      person1.obj == person2.obj,
+      person1.obj,
+      person2.obj,
+      "数组实例自身"
+    );
+    console.log(
+      person1.obj == person2.obj,
+      person1.constructorArr,
+      person2.constructorArr,
+      "数组原型"
+    );
+  </script>
+</html>
