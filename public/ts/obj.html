@@ -8,6 +8,52 @@
   </head>
   <body></body>
   <script>
+    /*对象 对象的属性(数据属性，计算属性)  对象合并 对象的增强写法 对象原型 对象继承*/
+    let singleOne = "",
+      singleTwo = "";
+    let family1 = {
+      father: "fa",
+      mather: "m",
+      son: "son",
+    };
+    let { father, mather } = family1;
+    let { son = "默认值" } = family1;
+    ({ father: singleOne, mather: singleTwo } = family1);
+    function judge(value) {
+      if (value == "fa") {
+        return "father";
+      } else {
+        return "mather";
+      }
+    }
+    let family = { [judge(father)]: "计算属性" };
+    let allFamily = Object.assign(family1, family);
+    /*合并调用的时目标对现象的set函数，
+    源对象的get函数，
+    浅复制，
+    引用类型复制的是引用地址，需要的是深拷贝
+    */
+
+
+
+    function deepCopy(data) {
+      let newobj = {};
+      for (let item in data) {
+        if (typeof item !== Object) {
+          Object.assign(newobj, item);
+        } else {
+          deepCopy(item);
+        }
+      }
+    }
+ function deepClone(initalObj,finalObj){
+   
+ }
+    function deepClone2(data) {
+      //JSON进行深拷贝
+      return JSON.parse(JSON.stringify(data));
+    }
+
     let first = {
       //计算属性
       name1: "name1",
@@ -44,7 +90,6 @@
     let create2 = createPerson("huang2", "huang2", 18);
 
     console.log(create1, create2);
-
     /*
     构造函数===========================
     */
@@ -57,7 +102,6 @@
         console.log(name + second + age);
       };
     }
-
     /*改造构造函数，方法公用
     1、占用全局，打乱全局作用域
     */
@@ -71,12 +115,10 @@
     function sayName2() {
       console.log(this.name + this.second + this.age);
     }
-
     /*
     升级构造函数=================使用原型
     1、原型也有缺点就是在涌向引用类型的时候，会出现问题
     */
-
     function CreatePersonConstructor3(first, second, age) {
       this.name = first;
       this.secondName = second;
@@ -87,7 +129,6 @@
       console.log(this, this.name + this.second + this.age);
     };
     CreatePersonConstructor3.prototype.constructorArr = ["a", "b"];
-
     /*原型继承===========================*/
     function CreatePersonConstructor(first, second, age) {
       this.name = first;
@@ -99,7 +140,6 @@
         return value;
       };
     }
-
     // CreatePersonConstructor.prototype.sayName = function() {
     //   console.log(this, this.name + this.second + this.age);
     //   return "子类的方法是否返回";
@@ -110,11 +150,7 @@
       "ju4",
       23
     );
-
     /*构造函数继承==========================*/
-
-    
-
     /*
     1、new 操作符 内存创建对象，
     2、对象特性[[prototype]]被赋值为 构造函数的prototype属性
@@ -142,5 +178,22 @@
       person2.constructorArr,
       "数组原型"
     );
+    /*实现new*/
+    function myNew(constru, ...arg) {
+      let obj = constru.prototype; //获取构造函数的原型
+      console.log(obj, "result");
+      let result = constru.apply(obj, arg); //重新定义this对象，执行构造函数的上下文
+      if (result instanceof Object) {
+        return result;
+      } else {
+        return obj;
+      }
+    }
+    function NewConstructor(name) {
+      console.log("什么时候执行");
+      this.name = name;
+    }
+    const new1 = myNew(NewConstructor, "newName");
+    console.log(new1, "new1");
   </script>
 </html>
