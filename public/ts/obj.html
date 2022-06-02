@@ -34,8 +34,6 @@
     引用类型复制的是引用地址，需要的是深拷贝
     */
 
-
-
     function deepCopy(data) {
       let newobj = {};
       for (let item in data) {
@@ -46,9 +44,7 @@
         }
       }
     }
- function deepClone(initalObj,finalObj){
-   
- }
+    function deepClone(initalObj, finalObj) {}
     function deepClone2(data) {
       //JSON进行深拷贝
       return JSON.parse(JSON.stringify(data));
@@ -164,7 +160,6 @@
     person1.constructorArr.push("personPush");
     person1.obj.push("4");
     let person2 = new CreatePersonConstructor("huang2", "ju3", 12);
-    console.log(person1.sayName());
     console.log(person1.sayName == person2.sayName, "方法");
     console.log(
       person1.obj == person2.obj,
@@ -194,6 +189,5 @@
       this.name = name;
     }
     const new1 = myNew(NewConstructor, "newName");
-    console.log(new1, "new1");
   </script>
 </html>
