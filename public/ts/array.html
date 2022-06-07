@@ -179,5 +179,10 @@ let newenv=evens.reduce((pre,cur,index,arr)=>{
   return pre+cur
 })
 console.log(newenv,evens)
+
+evens[Symbol.isConcatSpreadable]=false;
+let spreadAbleArr=evens.concat('ddd');
+console.log(spreadAbleArr,'spreadAbleArr')
+console.log(spreadAbleArr.flat())
   </script>
 </html>
