@@ -752,53 +752,56 @@
     let sliceArr = newflat.slice(1, 3);
     newflat.splice(1, 3, "改变原数组填补替换元素"); //第一个位置，删除三个
 
+    console.time();
     //分类
     function classifily(data) {
       let newAr = [];
-
       data.forEach((item) => {
+        let copyItem = item;
+        let itemGroupId = copyItem.groupId;
         let isElem = newAr.some((elem) => {
-          return elem.groupId == item.groupId;
+          return elem.groupId == itemGroupId;
         });
         if (isElem) {
           newAr.forEach((el) => {
-            if (el.groupId == item.groupId) {
-              el.list.push(item);
+            if (el.groupId == itemGroupId) {
+              el.list.push(copyItem);
             }
           });
         } else {
-          newAr.push({ groupId: item.groupId, list: [item] });
+          newAr.push({ groupId: itemGroupId, list: [copyItem] });
         }
       });
-
       //中英文归类
-      const lanaugeClassifyFn = (itemlist) => {
-        let itemlists = JSON.parse(JSON.stringify(itemlist));
-        let newItemlist = [];
-        itemlists.map((item) => {
-          let isSameTitle = newItemlist.some((ele) => {
-            return ele?.title == item.questionInfo.title;
-          });
-          if (isSameTitle) {
-            newItemlist.find((v) => {
-              if (v?.title == item.questionInfo.title) {
-                v.list.push(item);
-              }
-            });
-          } else {
-            newItemlist.push({ title: item.questionInfo.title, list: [item] });
-          }
-        });
-        return newItemlist;
-      };
-      newAr = newAr.map((ele) => {
-        ele.list = lanaugeClassifyFn(ele.list);
-        return ele;
-      });
-
+      // const lanaugeClassifyFn = (itemlist) => {
+      //   let itemlists = JSON.parse(JSON.stringify(itemlist));
+      //   let newItemlist = [];
+      //   itemlists.map((item) => {
+      //     let copyItem = item;
+      //     let itemQuestionTitle = copyItem.questionInfo.title;
+      //     let isSameTitle = newItemlist.some((ele) => {
+      //       return ele?.title == itemQuestionTitle;
+      //     });
+      //     if (isSameTitle) {
+      //       newItemlist.find((v) => {
+      //         if (v?.title == itemQuestionTitle) {
+      //           v.list.push(item);
+      //         }
+      //       });
+      //     } else {
+      //       newItemlist.push({ title: itemQuestionTitle, list: [item] });
+      //     }
+      //   });
+      //   return newItemlist;
+      // };
+      // newAr = newAr.map((ele) => {
+      //   let eleList = ele.list;
+      //   eleList = lanaugeClassifyFn(eleList);
+      //   return ele;
+      // });
       return newAr;
     }
-
     console.log(classifily(arrPra));
+    console.timeEnd();
   </script>
 </html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    /*
+
+Map 
+1、创建 ,可初始化（传入可迭代对象，需包含键值对的数组，按顺序插入）
+2、添加 set() 
+3、查找 get() has()
+4、删除 delete()  clear()
+5、与Object的不同之处
+    属性严格比较，多总类型
+    选择什么好？
+     1、内存占用
+        工程级实现在不同浏览器中存在明显的差异，给定固定大小的内存，Map大约可以比Object多存50%键值对
+     2、插入性能
+       object和map插入性能的消耗相当，不过插入map在所有的浏览器中一般会稍微快一点
+       如果涉及大量插入操作，map性能更好
+     3、查找速度
+      两者性能差异小，如果是少量的键值对，Object快一些，如果大量的查找，Object更好一些
+     4、删除
+     delete删除object属性的性能不是很好，所有开发时使用伪删除（undefined 或null）
+     如果大量的删除适用map  
+
+*/
+
+    /*1*/
+    //使用嵌套数组
+    const m1 = new Map([["key1", "val1"]]);
+    //使用自定义迭代器初始化映射
+    const m2 = new Map({
+      [Symbol.iterator]: function*() {
+        yield ["key1", "val1"];
+      },
+    });
+
+    m1.set("key2", "value2")
+      .set("key3", "value3")
+      .set(1, 333)
+      .set("1", "wewqeqee");
+    let getvalue = m1.get("key2");
+    let hasValue = m1.has("key2");
+    console.log(m1, getvalue, hasValue);
+
+    const m = new Map();
+    const functionKey = function() {};
+    const symbolKey = Symbol();
+    const objectKey = new Object();
+    m.set(functionKey, "functionValue");
+    m.set(symbolKey, "symbolValue");
+    m.set(objectKey, "objectValue");
+    console.log(m.get(functionKey)); // functionValue
+    console.log(m.get(symbolKey)); // symbolValue
+    console.log(m.get(objectKey)); // objectValue
+    // SameValueZero 比较意味着独立实例不冲突
+    console.log(m.get(function() {})); // undefined
+
+    const m3 = new Map([
+      ["key1", "val1"],
+      ["key2", "val2"],
+      ["key3", "val3"],
+    ]);
+    console.log(m3);
+    //因为entries()是默认迭代器，所以可以直接对映射实例使用扩展操作，把映射转换为数组
+    console.log([...m3]);
+    //map实例会维护键值对的插入顺序，映射实例可以提供一个迭代器，能以插入
+    //顺序生成【key,value】形式的数组
+    console.log(m3.entries === m[Symbol.iterator]);
+
+    m3.forEach((val, key) => {
+      console.log(val, key);
+      if (key == "key1") {
+        val = "weweewew";
+      }
+    });
+    console.log(m3);
+  </script>
+</html>
