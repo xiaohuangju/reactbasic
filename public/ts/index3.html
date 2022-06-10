@@ -37,13 +37,16 @@
     // two.onclick = strict.onclickFn2;
 
     //====================================
-
+    var thisFn = () => {
+      console.log(this, "varthis");
+    };
+    thisFn();
     window.color = "red";
     let strict = {
-      color: "red",
+      color: "blue",
       strict2: {
         strict3: {
-          onclickFn: function () {
+          onclickFn: function() {
             console.log(this, this.color, "当在对象里的普通函数"); //this指向的是调用者
           },
           onclickFn2: () => {
@@ -52,8 +55,8 @@
         },
       },
     };
-    one.onclick = strict.strict2.strict3.onclickFn;
-    two.onclick = strict.strict2.strict3.onclickFn2;
+    one.onclick = strict.strict2.strict3.onclickFn; //调用者是一个元素
+    two.onclick = strict.strict2.strict3.onclickFn2; //window
 
     /*
     普通函数只与调用这有关
@@ -94,7 +97,7 @@
     function Queeen() {
       this.royaltName = "ele";
       console.log(this, "this2");
-      setTimeout(function () {
+      setTimeout(function() {
         console.log(this, "普通函数setTimeOUT"); //this指向的是window
         console.log(this.royaltName);
       }, 1000);
@@ -103,7 +106,7 @@
     new Queeen();
 
     setTimeout(() => console.log(this, "外层定时器"), 1000);
-    setTimeout(function () {
+    setTimeout(function() {
       console.log("外层定时器普通函数", this);
     }, 1000);
 
@@ -159,7 +162,7 @@
       getIdentityFunc() {
         console.log("外函数的this", this); //指向的是obj此对象
         let that = this;
-        return function () {
+        return function() {
           //内部函数不能直接访问外部的this和arguments,
           //但是可以保存到另外一个变量进行中转
           console.log("内部函数的this", this);
@@ -167,7 +170,6 @@
         };
       },
     };
-
 
     console.log(obj.getIdentityFunc()()); //this 指向window
 
@@ -182,17 +184,17 @@
     function add(num1, num2) {
       let sum = num1 + num2;
       console.log(this, "加外部");
-      return function () {
+      return function() {
         return sum + 2;
       };
     }
     console.log(add(1, 2)());
 
     function Person() {
-      this.getName = function () {
+      this.getName = function() {
         return name;
       };
-      this.setName = function () {
+      this.setName = function() {
         name = value;
       };
     }
