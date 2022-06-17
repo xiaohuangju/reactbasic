@@ -9,6 +9,7 @@
     "axios": "^0.26.1",
     "cross-env": "^7.0.3",
     "jsdoc": "^3.6.10",
+    "lodash.uniqueid": "^4.0.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-redux": "^8.0.1",
