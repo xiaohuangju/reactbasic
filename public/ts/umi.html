@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    /*
+    layouts   全局布局文件 
+
+    // 这里是页面要展示的公共部分的内容
+// 给个例子，全部注释掉，因为不确定要引入什么版本的tea
+import React, { useEffect, useState } from 'react';
+import { useHistory, Redirect } from 'react-router-dom';
+import {
+  Layout,
+  Icon,
+  NavMenu,
+  Form,
+  Select,
+  Button,
+  Modal,
+} from 'tea-component';
+import LeftMenu from '@/components/leftMenu';
+import store from '@/store/global';
+import WorkSpace from '@/pages/WorkSpace/index';
+import { loginUserInfo } from '@/utils/services/getData';
+import { notificationFn } from '@/utils/common';
+const { Body, Header, Content, Sider } = Layout;
+
+// 直接在这里写路由列表
+const routers = [
+  {
+    title: (
+      <div className="menu-item">
+        <Icon
+          type="menu-user"
+          className="svg-icon svg-icon-menu-user menu-item-icon"
+        ></Icon>
+        <div className="menu-item-text"> 权限设置 </div>
+      </div>
+    ),
+    tag: '',
+    subMenu: [
+      {
+        title: 'API服务注册',
+        to: '/privilegeset/apiregistration',
+        subMenu: [
+          { to: '/privilegeset/apiregistration/apiadd' },
+          { to: '/privilegeset/apiregistration/apiedit' },
+          { to: '/privilegeset/apiregistration/apidetails' },
+        ],
+      },
+      {
+        title: 'API权限集合',
+        to: '/privilegeset/apipermission',
+        subMenu: [
+          { to: '/privilegeset/apipermission/apipermissionadd' },
+          { to: '/privilegeset/apipermission/apipermissionmodifity' },
+          { to: '/privilegeset/apipermission/apipermissiondetails' },
+        ],
+      },
+      {
+        title: '角色管理',
+        to: '/privilegeset/rolemanagement',
+        subMenu: [
+          { to: '/privilegeset/rolemanagement/roleadd' },
+          { to: '/privilegeset/rolemanagement/roleedit' },
+          { to: '/privilegeset/rolemanagement/roledetails' },
+        ],
+      },
+      {
+        title: '权限人员列表',
+        to: '/privilegeset/AuthorizedPersonnel',
+        // subMenu: [
+        //   { to: '/privilegeset/rolemanagement/roleadd' },
+        //   { to: '/privilegeset/rolemanagement/roleedit' },
+        //   { to: '/privilegeset/rolemanagement/roledetails' },
+        // ],
+      },
+      {
+        title: '访问白名单',
+        to: '/privilegeset/accesswhiteList',
+        subMenu: [
+          { to: '/privilegeset/accesswhiteList/useradd' },
+          { to: '/privilegeset/accesswhiteList/useredit' },
+          { to: '/privilegeset/accesswhiteList/userdetails' },
+        ],
+      },
+      {
+        title: '操作日志',
+        to: '/privilegeset/operationlog',
+        subMenu: [{ to: '/privilegeset/operationlog/operationlogdetail' }],
+      },
+      {
+        title: '业务模块配置',
+        to: '/privilegeset/moduleconfiguration',
+        subMenu: [
+          { to: '/privilegeset/moduleconfiguration/moduleedit' },
+          { to: '/privilegeset/moduleconfiguration/moduleadd' },
+          { to: '/privilegeset/moduleconfiguration/moduledetails' },
+        ],
+      },
+
+      {
+        title: '权限新增',
+        to: '/privilegeset/permissionadd',
+        // subMenu: [
+        //   { to: '/privilegeset/moduleconfiguration/moduleedit' },
+        //   { to: '/privilegeset/moduleconfiguration/moduleadd' },
+        //   { to: '/privilegeset/moduleconfiguration/moduledetails' },
+        // ],
+      },
+
+      {
+        title: '权限删除',
+        to: '/privilegeset/permissiondeletion',
+        // subMenu: [
+        //   { to: '/privilegeset/moduleconfiguration/moduleedit' },
+        //   { to: '/privilegeset/moduleconfiguration/moduleadd' },
+        //   { to: '/privilegeset/moduleconfiguration/moduledetails' },
+        // ],
+      },
+    ],
+  },
+  {
+    title: (
+      <div className="menu-item">
+        <Icon
+          type="menu-user"
+          className="svg-icon svg-icon-menu-user menu-item-icon"
+        ></Icon>
+        <div className="menu-item-text"> 流程配置 </div>
+      </div>
+    ),
+    subMenu: [
+      {
+        title: '流程节点配置',
+        to: '/processnode/processnodeconfiguration',
+        subMenu: [
+          { to: '/processnode/processnodeconfiguration/processnodeadd' },
+          { to: '/processnode/processnodeconfiguration/processnodeedit' },
+          { to: '/processnode/processnodeconfiguration/processnodedetails' },
+        ],
+      },
+      {
+        title: '审批流程配置',
+        to: '/processnode/approvalprocessconfiguration',
+        subMenu: [
+          { to: '/processnode/approvalprocessconfiguration/processnodeadd' },
+          { to: '/processnode/approvalprocessconfiguration/processnodeedit' },
+          {
+            to: '/processnode/approvalprocessconfiguration/processnodedetails',
+          },
+        ],
+      },
+    ],
+  },
+
+  {
+    title: (
+      <div className="menu-item">
+        <Icon
+          type="menu-user"
+          className="svg-icon svg-icon-menu-user menu-item-icon"
+        ></Icon>
+        <div className="menu-item-text"> 基础设置 </div>
+      </div>
+    ),
+    subMenu: [
+      {
+        title: '组织管理',
+        to: '/basicsettings/organizationalstructure',
+        subMenu: [
+          { to: '/organizationalstructure/roleadd' },
+          { to: '/organizationalstructure/roleedit' },
+          { to: '/organizationalstructure/roledetails' },
+        ],
+      },
+      {
+        title: '用户管理',
+        to: '/basicSettings/usermanagement',
+        subMenu: [
+          { to: '/organizationalstructure/roleadd' },
+          { to: '/organizationalstructure/roleedit' },
+          { to: '/organizationalstructure/roledetails' },
+        ],
+      },
+    ],
+  },
+];
+
+export default (props) => {
+  const [UserInfo, setUserInfo] = useState('---');
+  const [systems, setSystems] = useState();
+  //请求个人信息
+  const getUserInfo = () => {
+    loginUserInfo({}).then((res) => {
+      if (res.Code === 200) {
+        sessionStorage.setItem('name', res.Data.name);
+        setUserInfo(res.Data.name);
+      } else {
+        notificationFn('error', res.Msg);
+      }
+    });
+  };
+  const workspaceId = (value) => {
+    var value = sessionStorage.getItem('systems');
+    setSystems(value);
+  };
+  useEffect(() => {
+    getUserInfo();
+    workspaceId()
+  }, []);
+
+  return (
+    <Layout>
+      <Header>
+        <NavMenu
+          className="master-header-nav"
+          right={
+            <>
+              <NavMenu.Item>{UserInfo}</NavMenu.Item>
+            </>
+          }
+          left={
+            <>
+              <NavMenu.Item style={{ fontSize: '17px' }}>
+                {'海外业务IEGG敏感权限系统'}
+              </NavMenu.Item>
+                <NavMenu.Item style={{ fontSize: '17px' }}>
+                {systems}
+              </NavMenu.Item>
+            </>
+          }
+        ></NavMenu>
+      </Header>{' '}
+      {store.workspace ? (
+        <Body>
+          <Sider>
+            <LeftMenu menuList={routers} menuTitle="管理端" />
+          </Sider>{' '}
+          <Content> {props.children} </Content>{' '}
+        </Body>
+      ) : (
+        <WorkSpace workspaceId={workspaceId}/>
+      )}
+    </Layout>
+  );
+};
+
+    */
+
+     /*
+     2、路由以文件名为路径 []
+     */
+
+
+/*
+
+
+检查node  node -v  
+检查umi  umi -v
+没有 1  yarn global add umi # 或者 npm install -g umi 
+mkdir 文件名  mkdir myapp
+cd myapp
+yarn creae umi 使用脚手架创建
+选择app 
+安装依赖 yarn
+启动 yarn start
+
+
+2、
+*/
+</script>
+</html>
