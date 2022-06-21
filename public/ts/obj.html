@@ -186,19 +186,43 @@
     );
     /*实现new*/
     function myNew(constru, ...arg) {
-      let obj = constru.prototype; //获取构造函数的原型
+console.log(constru.prototype)
+      let obj =Object.create(constru.prototype); //获取构造函数的原型
       console.log(obj, "result");
+
+      console.log(Object.getPrototypeOf(obj),'获取原型')
       let result = constru.apply(obj, arg); //重新定义this对象，执行构造函数的上下文
+      console.log(result instanceof Object,'result',result)
       if (result instanceof Object) {
         return result;
       } else {
+        console.log(obj)
         return obj;
       }
     }
     function NewConstructor(name) {
       console.log("什么时候执行");
       this.name = name;
+      return {a:"111"}
     }
     const new1 = myNew(NewConstructor, "newName");
+
+
+    function Person5() {} 
+Person5.prototype = {
+name: "Nicholas",
+age: 29, 
+job: "Software Engineer", 
+sayName() { console.log(this.name); } };
+
+console.log(new Person5(),{})
+
+function Person6() {} ;
+let friend6 = new Person6(); 
+friend6.sayHi(); // "hi"，没问题！
+Person6.prototype.sayHi = function() { 
+ console.log("hi"); 
+}; 
+friend6.sayHi(); // "hi"，没问题！
   </script>
 </html>
